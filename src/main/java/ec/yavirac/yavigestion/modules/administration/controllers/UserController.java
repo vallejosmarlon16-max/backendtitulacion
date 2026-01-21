@@ -7,12 +7,21 @@ import ec.yavirac.yavigestion.modules.administration.services.facades.user.UserF
 import ec.yavirac.yavigestion.modules.core.dtos.response.GenericOnlyTextResponse;
 import ec.yavirac.yavigestion.modules.core.dtos.response.GenericPaginationResponse;
 import ec.yavirac.yavigestion.modules.core.dtos.response.GenericResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(
+        name = "Usuarios",
+        description = "Operaciones relacionadas con la gestión de usuarios"
+)
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -23,12 +32,29 @@ public class UserController {
         this.userFacade = userFacade;
     }
 
+    @Operation(
+            summary = "Crear un usuario",
+            description = "Ingresa un usuario"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
     @PostMapping
     public ResponseEntity<GenericOnlyTextResponse> create(@RequestBody CreateUserDTO userDTO) {
         GenericOnlyTextResponse response = userFacade.save(userDTO);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    @Operation(
+            summary = "Listar usuarios",
+            description = "Obtiene un listado paginado de usuarios del sistema"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Consulta exitosa"),
+            @ApiResponse(responseCode = "404", description = "No se proceso la consulta")
+    })
+    @SecurityRequirement(name = "")
     @GetMapping
     public ResponseEntity<GenericPaginationResponse<UserDTO>> findAll(Pageable pageable) {
         GenericPaginationResponse<UserDTO> response = userFacade.findAll(pageable);
@@ -46,6 +72,7 @@ public class UserController {
         GenericOnlyTextResponse response = userFacade.update(id, userDTO);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<GenericOnlyTextResponse> delete(@PathVariable Long id) {
         GenericOnlyTextResponse response = userFacade.delete(id);

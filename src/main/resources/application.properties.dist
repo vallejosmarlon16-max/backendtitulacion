@@ -1,17 +1,14 @@
-spring.application.name=yavigestion
-spring.application.version=1.0.0
-server.port=${SERVER_PORT:8080}
-server.servlet.context-path=/yavirac
+mpring.application.name=yavigestion
+server.port=8080
 
-
-# Postgres config
-spring.datasource.url=${POSTGRES_URL:jdbc:postgresql://localhost:5433/yavigestion}
-spring.datasource.username=${POSTGRES_USER:postgres}
-spring.datasource.password=${POSTGRES_PASS:postgres}
+# Base de Datos (Asegúrate de haber creado la BD 'titulacion' en pgAdmin)
+spring.datasource.url=jdbc:postgresql://localhost:5432/titulacion
+spring.datasource.username=postgres
+spring.datasource.password=2730995m
 spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
 
-app.jwt.secret=K5+/pD6Cz07j3X1G9KqvH8XbJQePwE5w1W3DHe6p7B+jkTfKImBz5pS7p3zljm4n8N9PZxq1mP3rHsBz9b5T1w==
-app.jwt.expiration-ms=9000
+# Para jwt
+app.jwt.secret=7d8e9f2a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e
+app.jwt.expiration-ms=86400000
 
-
-# Este es un ejemplo de trabajo con GIT
